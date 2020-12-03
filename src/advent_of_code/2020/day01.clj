@@ -1,5 +1,6 @@
 (ns advent-of-code.2020.day01
-  (:require [clojure.java.io :as io]))
+  (:require [clojure.java.io :as io]
+            [clojure.string :as str]))
 
 (defn read-numbers [file]
   (->> (io/reader file)
@@ -17,11 +18,22 @@
                               (disj number-pool %)
                               (conj tally %)))))))
 
+(defn solve [sum n nums]
+  (->> nums
+       (some (if (< n 3)
+               #(some-> (nums (- sum %)) (* %))
+               #(some-> (solve (- sum %) (dec n) nums) (* %))))))
+
+(defn solve1 [input]
+  (solve 2020 2 (read-numbers input)))
+
+(defn solve2 [input]
+  (solve 2020 3 (read-numbers input)))
 
 ;; -------------------------------------------------- ;;
 
 
-(def input (io/resource "day01-input.txt"))
+(def input (io/resource "2020/day01-input.txt"))
 
 (defn report [matches]
   (if matches
