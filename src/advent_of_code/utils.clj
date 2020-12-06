@@ -4,5 +4,6 @@
             [clojure.set :as set]))
 
 (defn get-lines [resource]
-  (->> (io/reader (io/resource resource))
+  (->> (io/resource resource)
+       (io/reader)
        (line-seq)))
