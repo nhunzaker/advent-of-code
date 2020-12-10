@@ -14,10 +14,6 @@
        (partition-all (inc buffer-size) 1)
        (some corruption)))
 
-(defn expose-weakness [numbers]
-  (+ (apply min numbers)
-     (apply max numbers)))
-
 (defn worm
   ([comparator list]
    (worm comparator list []))
@@ -47,7 +43,8 @@
     (seek-corruption lines 25)))
 
 (defn answer-2 []
-  (let [lines (map read-string (get-lines "2020/day09-input.txt"))]
-    (some-> (seek-corruption lines 25)
-            (seek-weakness lines)
-            (expose-weakness))))
+  (let [lines (map read-string (get-lines "2020/day09-input.txt"))
+        weakness (some-> (seek-corruption lines 25)
+                         (seek-weakness lines))]
+    (+ (apply min weakness)
+       (apply max weakness))))
