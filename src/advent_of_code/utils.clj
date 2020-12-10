@@ -16,5 +16,13 @@
   (-> (get-content resource)
       (str/split #"\n\n")))
 
+(defn sum [data]
+  (reduce + 0 data))
+
 (defn sum-by [f data]
   (transduce (map f) + 0 data))
+
+(defn pairs [list]
+  (when-some [[left & remainder] list]
+    (lazy-cat (for [right remainder] [left right])
+              (pairs remainder))))
